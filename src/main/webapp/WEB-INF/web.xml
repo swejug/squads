@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	 version="2.4">
+
+  <display-name>SweJUG</display-name>
+
+  <description>
+    This is the community site webapp for SweJUG.
+    It is deployed at http://swejug.se
+  </description>
+
+  <!-- dispatch filter -->
+  <filter>
+    <filter-name>dispatch-filter</filter-name>
+    <filter-class>se.swejug.squads.filters.DispatchFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>dispatch-filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- html frontend -->
+  <servlet>
+    <servlet-name>html-servlet</servlet-name>
+    <servlet-class>se.swejug.squads.servlets.HtmlServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>html-servlet</servlet-name>
+    <url-pattern>/html-servlet</url-pattern>
+  </servlet-mapping>
+
+  <!-- rest frontend -->
+  <!--
+  <servlet>
+    <servlet-name>rest-servlet</servlet-name>
+    <servlet-class>se.swejug.squads.servlets.RestServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>rest-servlet</servlet-name>
+    <url-pattern>/rest</url-pattern>
+  </servlet-mapping>
+  -->
+</web-app>
