@@ -1,6 +1,8 @@
 package se.swejug.squads.servlets;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HtmlContext {
@@ -13,14 +15,26 @@ public class HtmlContext {
 
    public final static String PAGE_DESCRIPTION = "pageDescription";
 
+   private final List<Link> crumbs = new ArrayList<Link>();
+
+   private Link link;
+
    private final Map<String, String> values = new HashMap<String, String>();
 
-   public void set(String key, String value) {
-      values.put(key, value);
+   public List<Link> getCrumbs() {
+      return crumbs;
    }
 
-   public String get(String key) {
-      return values.get(key);
+   public void setLink(Link link) {
+      this.link = link;
+   }
+
+   public Link getLink() {
+      return link;
+   }
+
+   public Map<String, String> getValues() {
+      return values;
    }
 
    public String getPageAuthor() {

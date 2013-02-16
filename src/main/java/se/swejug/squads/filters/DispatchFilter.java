@@ -71,12 +71,27 @@ public class DispatchFilter implements Filter {
          chain.doFilter(request, response);
       } else {
          // TODO: select html or rest servlet based on accept type
+         List<String> parts = getParts((HttpServletRequest)request);
+         request.setAttribute(REQUEST_PARTS, parts);
          request.getRequestDispatcher(WEB_SERVLET).forward(request, response);
       }
    }
 
    public void destroy() {
       LOG.trace("destroy...");
+   }
+
+   private List<String> getParts(HttpServletRequest request) {
+      String servletPath = request.getServletPath();
+      List<String> parts = new ArrayList<String>();
+      for (String part : servletPath.split("/")) {
+         String trimed = part.trim();
+         if (!trimed.isEmpty()) {
+            parts.add(trimed);
+         }
+      }
+      LOG.info("Transformed servlet path=" + servletPath + " to parts=" + parts.toString());
+      return parts;
    }
 
 }

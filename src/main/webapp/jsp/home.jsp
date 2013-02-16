@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="se.swejug.squads.servlets.HtmlContext"%>
+<%@ page import="se.swejug.squads.servlets.HtmlContext, se.swejug.squads.servlets.Link"%>
 <%
-   HtmlContext ctx = (HtmlContext) request.getAttribute(HtmlContext.CONTEXT_ATTRIBUTE);
+   HtmlContext ctx = (HtmlContext) request
+         .getAttribute(HtmlContext.CONTEXT_ATTRIBUTE);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,9 +34,12 @@
             <a class="brand" href="#">SweJUG</a>
             <div class="nav-collapse collapse">
                <ul class="nav">
-                  <li class="active"><a href="/">Home</a></li>
-                  <li><a href="/groups">Groups</a></li>
-                  <li><a href="/members">Members</a></li>
+                  <li class="active"><a href="/">Home</a>
+                  </li>
+                  <li><a href="/groups">Groups</a>
+                  </li>
+                  <li><a href="/members">Members</a>
+                  </li>
                </ul>
             </div>
          </div>
@@ -49,7 +53,12 @@
          Use this document as a way to quick start any new project.<br> All you get is this
          message and a barebones HTML document.
       </p>
-
+      <ul class="breadcrumb">
+      <% for (Link link : ctx.getCrumbs()) { %>
+         <li><a href="<%=link.getUrl()%>"><%=link.getLabel()%></a> <span class="divider">/</span></li>
+      <% } %>
+         <li class="active"><%=ctx.getLink().getLabel()%></li>
+      </ul>
    </div>
 
    <!-- javascript - Placed at the end of the document so the pages load faster -->
