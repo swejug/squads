@@ -1,48 +1,38 @@
 package se.swejug.squads.servlets;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import se.swejug.squads.builders.HtmlContextBuilder;
+import se.swejug.squads.contexts.HtmlContext;
 import se.swejug.squads.filters.DispatchFilter;
 
-public class HtmlServlet extends AbstractServlet {
+public class HtmlServlet extends HttpServlet {
 
    private static final long serialVersionUID = 1L;
+
+   private static final Logger LOG = Logger.getLogger(HtmlServlet.class);
 
    @Override
    public void doGet(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
+
+      LOG.info("do get...");
       @SuppressWarnings("unchecked")
       List<String> parts = (List<String>) request.getAttribute(DispatchFilter.REQUEST_PARTS);
-      // TODO: gather info and select appropriate jsp file
 
-      HtmlContext ctx = new HtmlContext();
-      ctx.getValues().put(HtmlContext.PAGE_AUTHOR, "Thobias Bergqvist");
-      ctx.getValues().put(HtmlContext.PAGE_TITLE, "SweJUG Rules!");
-      ctx.getValues().put(HtmlContext.PAGE_DESCRIPTION, "Yes, SweJUG Rules a lot...");
-      Link link = makeLink(request, "Home", Collections.<String>emptyList());
-      ctx.getCrumbs().add(link);
-      for (int i = 0; i < parts.size()-1; i++) {
-         link = makeLink(request, parts.get(i), parts.subList(0, i+1));
-         ctx.getCrumbs().add(link);
-      }
-      link = makeLink(request, parts.get(parts.size()-1), parts);
-      ctx.setLink(link);
-      request.setAttribute(HtmlContext.CONTEXT_ATTRIBUTE, ctx);
-      request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
-   }
+      HtmlContextBuilder builder = new HtmlContextBuilder();
+      HtmlContext context = builder.build(request.getContextPath(), parts);
 
-   private Link makeLink(HttpServletRequest request , String label, List<String> parts) {
-      Link link = new Link(request.getContextPath());
-      link.setLabel(label);
-      link.getParts().addAll(parts);
-      return link;
+      request.setAttribute(HtmlContext.ATTRIBUTE, context);
+      request.getRequestDispatcher("jsp/" + context.getJspPage()).forward(request, response);
    }
 
 }
