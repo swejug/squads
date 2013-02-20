@@ -2,7 +2,7 @@ package se.swejug.squads.builders;
 
 import java.util.List;
 
-import se.swejug.squads.servlets.Link;
+import se.swejug.squads.beans.Link;
 
 public class LinkBuilder {
 
@@ -22,4 +22,5 @@ public class LinkBuilder {
       link.getParts().addAll(parts);
       return link;
    }
+
 }

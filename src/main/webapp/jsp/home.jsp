@@ -1,11 +1,5 @@
-<%@ page
-   language="java"
-   contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"
-   import="se.swejug.squads.contexts.HtmlContext"
-   import="se.swejug.squads.contexts.HtmlHomeContext"
-   import="se.swejug.squads.servlets.Link"
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="se.swejug.squads.contexts.*,se.swejug.squads.beans.*" %>
 <%
    HtmlHomeContext ctx = (HtmlHomeContext) request.getAttribute(HtmlContext.ATTRIBUTE);
 %>
@@ -36,15 +30,12 @@
                data-target=".nav-collapse">
                <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="#">SweJUG</a>
+            <a class="brand" href="<%=request.getContextPath()%>">SweJUG</a>
             <div class="nav-collapse collapse">
                <ul class="nav">
-                  <li class="active"><a href="/">Home</a>
-                  </li>
-                  <li><a href="/groups">Groups</a>
-                  </li>
-                  <li><a href="/members">Members</a>
-                  </li>
+               <% for (Link link : ctx.getMenu()) { %>
+                  <li class="active"><a href="<%=link.getUrl()%>"><%=link.getLabel()%></a></li>
+               <% } %>
                </ul>
             </div>
          </div>

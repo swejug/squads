@@ -1,4 +1,4 @@
-package se.swejug.squads.servlets;
+package se.swejug.squads.beans;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +34,18 @@ public class Link {
          sb.append("/").append(part);
       }
       return sb.toString();
+   }
+
+   public boolean matches(List<String> parts) {
+      if (this.parts.size() != parts.size()) {
+         return false;
+      }
+      int max = Math.min(this.parts.size(), parts.size());
+      for (int i = 0; i < max; i++) {
+         if (!this.parts.get(i).equals(parts.get(i))) {
+            return false;
+         }
+      }
+      return true;
    }
 }
